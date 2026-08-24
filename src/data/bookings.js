@@ -6,37 +6,38 @@ const today = startOfToday();
 
 // status ที่เป็นไปได้ตามสเปค: pending, approved, checked-in, no-show, cancelled, completed
 // startTime เป็นรูปแบบ 24 ชม. ("HH:MM") ให้ตรงกับ SLOT_TIMES ใน schedule.js
-export const seedBookings = [
-  {
-    id: "bk-1",
-    roomId: "room-1",
-    dateKey: toDateKey(addDays(today, 2)),
-    startTime: "10:30",
-    status: "approved",
-    ownerId: "u1",
-  },
-  {
-    id: "bk-2",
-    roomId: "room-3",
-    dateKey: toDateKey(addDays(today, 5)),
-    startTime: "14:30",
-    status: "pending",
-    ownerId: "u1",
-  },
-  {
-    id: "bk-3",
-    roomId: "room-2",
-    dateKey: toDateKey(addDays(today, -10)),
-    startTime: "09:30",
-    status: "completed",
-    ownerId: "u1",
-  },
-  {
-    id: "bk-4",
-    roomId: "room-1",
-    dateKey: toDateKey(addDays(today, -5)),
-    startTime: "13:30",
-    status: "no-show",
-    ownerId: "u1",
-  },
-];
+export const seedBookings = [];
+// export const seedBookings = [
+//   {
+//     id: "bk-1",
+//     roomId: "room-1",
+//     dateKey: toDateKey(addDays(today, 2)),
+//     startTime: "10:30",
+//     status: "approved",
+//     ownerId: "u1",
+//   },
+//   {
+//     id: "bk-2",
+//     roomId: "room-3",
+//     dateKey: toDateKey(addDays(today, 5)),
+//     startTime: "14:30",
+//     status: "pending",
+//     ownerId: "u1",
+//   },
+//   {
+//     id: "bk-3",
+//     roomId: "room-2",
+//     dateKey: toDateKey(addDays(today, -10)),
+//     startTime: "09:30",
+//     status: "completed",
+//     ownerId: "u1",
+//   },
+//   {
+//     id: "bk-4",
+//     roomId: "room-1",
+//     dateKey: toDateKey(addDays(today, -5)),
+//     startTime: "13:30",
+//     status: "no-show",
+//     ownerId: "u1",
+//   },
+// ];
