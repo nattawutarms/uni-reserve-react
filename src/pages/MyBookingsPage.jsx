@@ -1,0 +1,142 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AlertTriangle, Pin, Calendar, Clock, Plus } from "lucide-react";
+import { bookings as initialBookings } from "../data/bookings.js";
+import { getRoomById } from "../data/rooms.js";
+import { startOfToday, formatDateLabel } from "../utils/date.js";
+import AppHeader from "../components/AppHeader.jsx";
+import "./MyBookingsPage.css";
+
+const MIN_CANCEL_DAYS = 3; // Cancellation Guard: ต้องยกเลิกล่วงหน้าอย่างน้อย 3 วัน
+
+const STATUS_META = {
+  pending: { label: "Pending", className: "badge-pending" },
+  approved: { label: "Approved - Pending Check-in", className: "badge-approved" },
+  "checked-in": { label: "Checked-in", className: "badge-approved" },
+  completed: { label: "Completed", className: "badge-completed" },
+  cancelled: { label: "Cancelled", className: "badge-cancelled" },
+  "no-show": { label: "No-Show", className: "badge-cancelled" },
+};
+
+function daysUntil(date) {
+  const today = startOfToday();
+  return Math.round((date - today) / (1000 * 60 * 60 * 24));
+}
+
+function MyBookingsPage() {
+  const navigate = useNavigate();
+  const [bookingList, setBookingList] = useState(initialBookings);
+  const [tab, setTab] = useState("upcoming"); // "upcoming" | "past"
+
+  const today = startOfToday();
+  const visibleBookings = bookingList.filter((b) =>
+    tab === "upcoming" ? b.date >= today && b.status !== "cancelled" : b.date < today || b.status === "cancelled"
+  );
+
+  function handleCancel(booking) {
+    const confirmed = window.confirm(`ยืนยันยกเลิกการจอง "${getRoomById(booking.roomId)?.name}" ใช่ไหม?`);
+    if (!confirmed) return;
+
+    setBookingList((list) =>
+      list.map((b) => (b.id === booking.id ? { ...b, status: "cancelled" } : b))
+    );
+  }
+
+  return (
+    <div className="bookings-page">
+      <AppHeader active="bookings" />
+
+      <div className="banner banner-warning">
+        <AlertTriangle size={14} />
+        Cancellations must be made at least {MIN_CANCEL_DAYS} days prior to the event date.
+      </div>
+
+      <div className="banner banner-info">
+        <Pin size={14} />
+        Please check in with the Admin at the room location 15 minutes before your time slot.
+      </div>
+
+      <div className="bookings-heading">
+        <div>
+          <h1>My Bookings</h1>
+          <p>Manage your upcoming reservations and view past history.</p>
+        </div>
+
+        <div className="tab-switch">
+          <button
+            className={tab === "upcoming" ? "active" : ""}
+            onClick={() => setTab("upcoming")}
+          >
+            Upcoming Bookings
+          </button>
+          <button
+            className={tab === "past" ? "active" : ""}
+            onClick={() => setTab("past")}
+          >
+            Past History
+          </button>
+        </div>
+      </div>
+
+      <div className="bookings-grid">
+        {visibleBookings.map((booking) => {
+          const room = getRoomById(booking.roomId);
+          const meta = STATUS_META[booking.status];
+          const canCancel =
+            tab === "upcoming" &&
+            (booking.status === "pending" || booking.status === "approved") &&
+            daysUntil(booking.date) >= MIN_CANCEL_DAYS;
+
+          if (!room) return null;
+
+          return (
+            <div className="booking-card" key={booking.id}>
+              <div className="booking-image-wrap">
+                <img src={room.image} alt={room.name} />
+                <span className={`status-badge ${meta.className}`}>{meta.label}</span>
+              </div>
+
+              <div className="booking-body">
+                <h3>{room.name}</h3>
+                <p className="booking-line">
+                  <Calendar size={13} /> {formatDateLabel(booking.date)}
+                </p>
+                <p className="booking-line">
+                  <Clock size={13} /> {booking.startTime} - {booking.endTime}
+                </p>
+
+                {tab === "upcoming" && (
+                  <button
+                    className="cancel-btn"
+                    disabled={!canCancel}
+                    onClick={() => handleCancel(booking)}
+                    title={!canCancel ? `ยกเลิกไม่ได้ ต้องล่วงหน้า ${MIN_CANCEL_DAYS} วันขึ้นไป` : ""}
+                  >
+                    Cancel Booking
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {tab === "upcoming" && (
+          <div className="booking-card add-card" onClick={() => navigate("/rooms")}>
+            <div className="add-icon">
+              <Plus size={22} />
+            </div>
+            <h3>Need another room?</h3>
+            <p>Browse available spaces for your next meeting.</p>
+            <button className="browse-btn">Browse Rooms</button>
+          </div>
+        )}
+
+        {visibleBookings.length === 0 && tab === "past" && (
+          <p className="empty-text">ยังไม่มีประวัติการจองที่ผ่านมา</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default MyBookingsPage;

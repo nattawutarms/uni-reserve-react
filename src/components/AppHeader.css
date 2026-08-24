@@ -1,0 +1,72 @@
+.app-header {
+  max-width: 1100px;
+  margin: 0 auto 24px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.app-logo {
+  font-weight: 800;
+  font-size: 18px;
+  color: #1e2a4a;
+  text-decoration: none;
+}
+
+.app-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: #1e2a4a;
+  text-decoration: underline;
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.role-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e2a4a;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3b5bdb;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #3b5bdb;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
