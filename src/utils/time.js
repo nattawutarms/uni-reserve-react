@@ -2,19 +2,20 @@
 
 export function formatTime12(time24) {
   const [h, m] = time24.split(":").map(Number);
-  const period = h >= 12 ? "PM" : "AM";
-  const hour12 = h % 12 === 0 ? 12 : h % 12;
-  return `${hour12}:${String(m).padStart(2, "0")} ${period}`;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")} น.`;
 }
 
-export function addOneHour(time24) {
+export function addHours(time24, hours) {
   const [h, m] = time24.split(":").map(Number);
-  const newH = (h + 1) % 24;
+  const newH = (h + hours) % 24;
   return `${String(newH).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
-// คืนค่าเป็น "10:30 AM - 11:30 AM" จากเวลาเริ่มต้น (การจองขั้นต่ำ 1 ชั่วโมงตามสเปค)
-export function slotRangeLabel(startTime24) {
-  const endTime24 = addOneHour(startTime24);
+export function addOneHour(time24) {
+  return addHours(time24, 1);
+}
+
+export function slotRangeLabel(startTime24, durationHours = 1) {
+  const endTime24 = addHours(startTime24, durationHours);
   return `${formatTime12(startTime24)} - ${formatTime12(endTime24)}`;
 }

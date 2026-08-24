@@ -11,7 +11,7 @@
 */
 
 const FAKE_USERS = [
-  { identifier: "student@test.com", password: "123456", role: "user", name: "Somchai Student" },
+  { identifier: "2510717302001", password: "123456", role: "user", name: "Somchai Student" },
   { identifier: "admin@test.com", password: "admin123", role: "admin", name: "Admin User" },
 ];
 

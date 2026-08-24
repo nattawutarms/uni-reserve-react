@@ -16,7 +16,7 @@ function RoomDetailPage() {
 
   const today = startOfToday();
   const [selectedDate, setSelectedDate] = useState(today);
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedSlots, setSelectedSlots] = useState([]);
 
   // ----- Calendar Guard: คำนวณว่าเลื่อนวัน ก่อนหน้า/ถัดไป ได้ไหม -----
   const canGoPrev = selectedDate > today;
@@ -25,14 +25,14 @@ function RoomDetailPage() {
   function goPrevDay() {
     if (canGoPrev) {
       setSelectedDate((d) => addDays(d, -1));
-      setSelectedTime(null); // เปลี่ยนวันแล้ว ล้าง slot ที่เลือกไว้
+      setSelectedSlots([]);
     }
   }
 
   function goNextDay() {
     if (canGoNext) {
       setSelectedDate((d) => addDays(d, 1));
-      setSelectedTime(null);
+      setSelectedSlots([]);
     }
   }
 
@@ -47,15 +47,46 @@ function RoomDetailPage() {
   const afternoonSlots = schedule.filter((s) => Number(s.time.split(":")[0]) >= 12);
 
   function handleSlotClick(slot) {
-    // Overlap Guard: ห้ามเลือก slot ที่ booked หรือ past
-    if (slot.status !== "available") return;
-    setSelectedTime((current) => (current === slot.time ? null : slot.time));
+    if (slot.status !== "available") return; // Overlap Guard: ห้ามเลือก slot ที่ booked/past
+
+    const clickedIndex = SLOT_TIMES.indexOf(slot.time);
+
+    setSelectedSlots((current) => {
+      if (current.length === 0) {
+        return [slot.time]; // ยังไม่มีอะไรเลือกไว้ เริ่มเลือกช่องนี้เป็นช่องแรก
+      }
+
+      const firstIndex = SLOT_TIMES.indexOf(current[0]);
+      const lastIndex = SLOT_TIMES.indexOf(current[current.length - 1]);
+
+      // คลิกช่องสุดท้ายที่เลือกไว้ซ้ำ -> ยุบออก (เอาออกจากท้าย)
+      if (clickedIndex === lastIndex) {
+        return current.slice(0, -1);
+      }
+
+      // คลิกช่องถัดจากช่องสุดท้ายพอดี -> ต่อเพิ่มไปข้างหลัง (ขยายเวลาให้นานขึ้น)
+      if (clickedIndex === lastIndex + 1) {
+        return [...current, slot.time];
+      }
+
+      // คลิกช่องก่อนหน้าช่องแรกพอดี -> ต่อเพิ่มไปข้างหน้า
+      if (clickedIndex === firstIndex - 1) {
+        return [slot.time, ...current];
+      }
+
+      // คลิกช่องอื่นที่ไม่ต่อเนื่องกับที่เลือกไว้ -> เริ่มเลือกใหม่จากช่องนี้
+      return [slot.time];
+    });
   }
 
   function handleReviewBooking() {
-    if (!selectedTime) return;
+    if (selectedSlots.length === 0) return;
     navigate(`/rooms/${room.id}/confirm`, {
-      state: { dateKey: toDateKey(selectedDate), time: selectedTime },
+      state: {
+        dateKey: toDateKey(selectedDate),
+        time: selectedSlots[0], // เวลาเริ่มต้น = slot แรกที่เลือก
+        duration: selectedSlots.length, // จำนวนชั่วโมง = จำนวน slot ที่เลือก
+      },
     });
   }
 
@@ -144,25 +175,39 @@ function RoomDetailPage() {
           <p className="slot-group-label">Morning</p>
           <div className="slot-list">
             {morningSlots.map((slot) => (
-              <SlotRow key={slot.time} slot={slot} selectedTime={selectedTime} onClick={handleSlotClick} />
+              <SlotRow
+                key={slot.time}
+                slot={slot}
+                isSelected={selectedSlots.includes(slot.time)}
+                onClick={handleSlotClick}
+              />
             ))}
           </div>
 
           <p className="slot-group-label">Afternoon</p>
           <div className="slot-list">
             {afternoonSlots.map((slot) => (
-              <SlotRow key={slot.time} slot={slot} selectedTime={selectedTime} onClick={handleSlotClick} />
+              <SlotRow
+                key={slot.time}
+                slot={slot}
+                isSelected={selectedSlots.includes(slot.time)}
+                onClick={handleSlotClick}
+              />
             ))}
           </div>
 
           <div className="duration-row">
             <span>Duration</span>
-            <strong>{selectedTime ? "1 hour" : "-"}</strong>
+            <strong>
+              {selectedSlots.length === 0
+                ? "-"
+                : `${selectedSlots.length} hour${selectedSlots.length > 1 ? "s" : ""}`}
+            </strong>
           </div>
 
           <button
             className="review-btn"
-            disabled={!selectedTime}
+            disabled={selectedSlots.length === 0}
             onClick={handleReviewBooking}
           >
             Review Booking →
@@ -174,8 +219,7 @@ function RoomDetailPage() {
 }
 
 // แถวของแต่ละ slot เวลา แยกเป็น component ย่อยให้โค้ดหลักอ่านง่ายขึ้น
-function SlotRow({ slot, selectedTime, onClick }) {
-  const isSelected = selectedTime === slot.time;
+function SlotRow({ slot, isSelected, onClick }) {
   const status = isSelected ? "selected" : slot.status;
 
   return (

@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Video, Presentation, PenSquare, Users } from "lucide-react";
 import { rooms } from "../data/rooms.js";
+import { SLOT_TIMES } from "../data/schedule.js";
+import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";
 import "./BrowseRoomsPage.css";
 // ไอคอนแทนอุปกรณ์แต่ละชนิด ใช้ key เดียวกับใน rooms.js (equipment array)
@@ -36,11 +38,12 @@ function BrowseRoomsPage() {
           <label className="filter-label">Schedule</label>
           <div className="filter-row">
             <input type="date" defaultValue="2024-05-15" />
-            <select defaultValue="09:00-10:00">
-              <option value="09:00-10:00">09:00 AM - 10:00 AM</option>
-              <option value="10:00-11:00">10:00 AM - 11:00 AM</option>
-              <option value="13:00-14:00">01:00 PM - 02:00 PM</option>
-              <option value="14:00-15:00">02:00 PM - 03:00 PM</option>
+            <select defaultValue={SLOT_TIMES[0]}>
+              {SLOT_TIMES.map((time) => (
+                <option key={time} value={time}>
+                  {slotRangeLabel(time)}
+                </option>
+              ))}
             </select>
           </div>
         </div>
