@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage.jsx";
 import BrowseRoomsPage from "./pages/BrowseRoomsPage.jsx";
 import RoomDetailPage from "./pages/RoomDetailPage.jsx";
+import ConfirmBookingPage from "./pages/ConfirmBookingPage.jsx";
 import MyBookingsPage from "./pages/MyBookingsPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -25,6 +26,14 @@ function App() {
           element={
             <ProtectedRoute>
               <RoomDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/rooms/:roomId/confirm"
+          element={
+            <ProtectedRoute>
+              <ConfirmBookingPage />
             </ProtectedRoute>
           }
         />

@@ -54,10 +54,9 @@ function RoomDetailPage() {
 
   function handleReviewBooking() {
     if (!selectedTime) return;
-    // ยังไม่มีหน้ายืนยันการจอง (ทำทีหลัง) เลยสรุปให้ดูก่อนตอนนี้
-    alert(
-      `สรุปการจอง:\nห้อง: ${room.name}\nวันที่: ${formatDateLabel(selectedDate)}\nเวลา: ${selectedTime} - 1 ชั่วโมง\n\n(หน้ายืนยันการจองจริงยังไม่ได้ทำ)`
-    );
+    navigate(`/rooms/${room.id}/confirm`, {
+      state: { dateKey: toDateKey(selectedDate), time: selectedTime },
+    });
   }
 
   if (!room) {

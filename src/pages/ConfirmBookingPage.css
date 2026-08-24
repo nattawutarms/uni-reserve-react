@@ -1,0 +1,150 @@
+.confirm-page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #9aa0ab;
+  margin-bottom: 16px;
+}
+
+.breadcrumb a {
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.confirm-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.confirm-card h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  color: #1e2a4a;
+}
+
+.confirm-subtitle {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: #9aa0ab;
+}
+
+.confirm-room-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eef0f3;
+  margin-bottom: 20px;
+}
+
+.confirm-room-row img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.confirm-room-row h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #1e2a4a;
+}
+
+.confirm-room-row p {
+  margin: 0;
+  font-size: 12px;
+  color: #9aa0ab;
+}
+
+.confirm-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #6b7280;
+}
+
+.detail-item > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 11px;
+  color: #9aa0ab;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e2a4a;
+}
+
+.policy-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fff8e6;
+  color: #b7791f;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-secondary,
+.btn-primary {
+  flex: 1;
+  padding: 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-secondary {
+  background: #eef0f3;
+  color: #1e2a4a;
+}
+
+.btn-secondary:hover {
+  background: #e2e5eb;
+}
+
+.btn-primary {
+  background: #22b573;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #1e9c63;
+}

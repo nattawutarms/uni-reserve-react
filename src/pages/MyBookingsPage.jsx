@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertTriangle, Pin, Calendar, Clock, Plus } from "lucide-react";
-import { bookings as initialBookings } from "../data/bookings.js";
+import { getAllBookings, updateBookingStatus } from "../api/bookingsStore.js";
 import { getRoomById } from "../data/rooms.js";
-import { startOfToday, formatDateLabel } from "../utils/date.js";
+import { startOfToday, fromDateKey, formatDateLabel } from "../utils/date.js";
+import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";
 import "./MyBookingsPage.css";
 
@@ -25,21 +26,23 @@ function daysUntil(date) {
 
 function MyBookingsPage() {
   const navigate = useNavigate();
-  const [bookingList, setBookingList] = useState(initialBookings);
+  const [bookingList, setBookingList] = useState(getAllBookings);
   const [tab, setTab] = useState("upcoming"); // "upcoming" | "past"
 
   const today = startOfToday();
-  const visibleBookings = bookingList.filter((b) =>
-    tab === "upcoming" ? b.date >= today && b.status !== "cancelled" : b.date < today || b.status === "cancelled"
-  );
+  const visibleBookings = bookingList.filter((b) => {
+    const bookingDate = fromDateKey(b.dateKey);
+    return tab === "upcoming"
+      ? bookingDate >= today && b.status !== "cancelled"
+      : bookingDate < today || b.status === "cancelled";
+  });
 
   function handleCancel(booking) {
     const confirmed = window.confirm(`ยืนยันยกเลิกการจอง "${getRoomById(booking.roomId)?.name}" ใช่ไหม?`);
     if (!confirmed) return;
 
-    setBookingList((list) =>
-      list.map((b) => (b.id === booking.id ? { ...b, status: "cancelled" } : b))
-    );
+    updateBookingStatus(booking.id, "cancelled");
+    setBookingList(getAllBookings()); // โหลดข้อมูลล่าสุดจาก store มาแสดงใหม่
   }
 
   return (
@@ -85,7 +88,7 @@ function MyBookingsPage() {
           const canCancel =
             tab === "upcoming" &&
             (booking.status === "pending" || booking.status === "approved") &&
-            daysUntil(booking.date) >= MIN_CANCEL_DAYS;
+            daysUntil(fromDateKey(booking.dateKey)) >= MIN_CANCEL_DAYS;
 
           if (!room) return null;
 
@@ -99,10 +102,10 @@ function MyBookingsPage() {
               <div className="booking-body">
                 <h3>{room.name}</h3>
                 <p className="booking-line">
-                  <Calendar size={13} /> {formatDateLabel(booking.date)}
+                  <Calendar size={13} /> {formatDateLabel(fromDateKey(booking.dateKey))}
                 </p>
                 <p className="booking-line">
-                  <Clock size={13} /> {booking.startTime} - {booking.endTime}
+                  <Clock size={13} /> {slotRangeLabel(booking.startTime)}
                 </p>
 
                 {tab === "upcoming" && (

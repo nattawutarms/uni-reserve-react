@@ -29,6 +29,16 @@ export function formatDateLabel(date) {
 }
 
 export function toDateKey(date) {
-  // ใช้เป็น key เทียบวันที่ในตัวอย่าง mock schedule เช่น "2026-08-24"
-  return date.toISOString().slice(0, 10);
+  // ใช้ local date components แทน toISOString() เพราะ toISOString ใช้ UTC
+  // ถ้า timezone ของเครื่อง user ต่างจาก UTC อาจได้วันที่เพี้ยนไป 1 วัน
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+export function fromDateKey(dateKey) {
+  // แปลง "2026-08-24" กลับเป็น Date แบบ local midnight (ไม่ใช้ UTC)
+  const [y, m, d] = dateKey.split("-").map(Number);
+  return new Date(y, m - 1, d);
 }
