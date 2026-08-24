@@ -34,14 +34,20 @@ export function getAllBookings() {
   return readRaw();
 }
 
-export function addBooking({ roomId, dateKey, startTime }) {
+export function addBooking({ roomId, dateKey, startTime, duration = 1, title, description, ownerId, participantIds = [] }) {
   const list = readRaw();
   const newBooking = {
     id: "bk-" + Date.now(),
     roomId,
     dateKey,
     startTime,
-    status: "pending", // การจองใหม่ต้องรอ Admin อนุมัติก่อนเสมอ (ตามสเปค R11)
+    duration,
+    title,
+    description,
+    ownerId, // id ของคนที่เป็นคนจอง (organizer) ใช้แยก "การจองของฉัน"
+    // เก็บผู้เข้าร่วมเป็น id ไม่ใช่ชื่อ กันปัญหาชื่อซ้ำ แต่ละคนมีสถานะตอบรับแยกกัน
+    participants: participantIds.map((id) => ({ id, status: "pending" })),
+    status: "pending", // สถานะของ "การจองห้อง" (รอ Admin อนุมัติ) คนละเรื่องกับสถานะผู้เข้าร่วม
   };
   writeRaw([...list, newBooking]);
   return newBooking;
@@ -50,5 +56,18 @@ export function addBooking({ roomId, dateKey, startTime }) {
 export function updateBookingStatus(id, status) {
   const list = readRaw();
   const updated = list.map((b) => (b.id === id ? { ...b, status } : b));
+  writeRaw(updated);
+}
+export function updateParticipantStatus(bookingId, participantId, status) {
+  const list = readRaw();
+  const updated = list.map((b) => {
+    if (b.id !== bookingId) return b;
+    return {
+      ...b,
+      participants: (b.participants || []).map((p) =>
+        p.id === participantId ? { ...p, status } : p
+      ),
+    };
+  });
   writeRaw(updated);
 }

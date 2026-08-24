@@ -11,8 +11,14 @@
 */
 
 const FAKE_USERS = [
-  { identifier: "2510717302001", password: "123456", role: "user", name: "Somchai Student" },
-  { identifier: "admin@test.com", password: "admin123", role: "admin", name: "Admin User" },
+  { id: "u1", identifier: "01", password: "123456", role: "user", name: "Somchai Student" },
+  { id: "u2", identifier: "02", password: "123456", role: "user", name: "Nina Wattana" },
+  { id: "u3", identifier: "03", password: "123456", role: "user", name: "David Chen" },
+  { id: "u4", identifier: "04", password: "123456", role: "user", name: "Mai Suksan" },
+  { id: "u5", identifier: "05", password: "123456", role: "user", name: "Arthur Lee" },
+  { id: "u6", identifier: "06", password: "123456", role: "user", name: "Praew Intarat" },
+  { id: "u7", identifier: "07", password: "123456", role: "user", name: "Wisa Boonmee" },
+  { id: "a1", identifier: "admin@test.com", password: "admin123", role: "admin", name: "Admin User" },
 ];
 
 /**
@@ -33,7 +39,7 @@ export function login(identifier, password, role) {
         resolve({
           success: true,
           token: "fake-jwt-token-" + Date.now(),
-          user: { name: foundUser.name, role: foundUser.role },
+          user: { id: foundUser.id, name: foundUser.name, role: foundUser.role },
         });
       } else {
         resolve({

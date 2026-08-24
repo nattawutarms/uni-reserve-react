@@ -84,7 +84,7 @@
   color: #6b7280;
 }
 
-.detail-item > div {
+.detail-item>div {
   display: flex;
   flex-direction: column;
 }
@@ -100,6 +100,59 @@
   font-size: 14px;
   font-weight: 600;
   color: #1e2a4a;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #dfe2e8;
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: #3b5bdb;
+}
+
+.form-textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.participant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid #eef0f3;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.participant-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
 }
 
 .policy-banner {

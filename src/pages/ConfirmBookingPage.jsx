@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 import { AlertTriangle, Calendar, Clock, Users } from "lucide-react";
 import { getRoomById } from "../data/rooms.js";
 import { addBooking } from "../api/bookingsStore.js";
+import { users } from "../data/users.js";
 import { fromDateKey, formatDateLabel } from "../utils/date.js";
 import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";
@@ -14,7 +16,25 @@ function ConfirmBookingPage() {
   const room = getRoomById(roomId);
 
   // ข้อมูลวัน/เวลาที่เลือกไว้ ถูกส่งมาจากหน้า Room Detail ผ่าน navigate(path, { state })
-  const { dateKey, time } = location.state || {};
+  const { dateKey, time, duration = 1 } = location.state || {};
+
+  // คนที่ login อยู่ตอนนี้ คือคนที่จะเป็น "เจ้าของการจอง" (organizer)
+  const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedParticipantIds, setSelectedParticipantIds] = useState([]);
+
+  // รายชื่อที่เลือกเชิญได้ = ทุกคนในระบบ ยกเว้นตัวเอง
+  const inviteableUsers = users.filter((u) => u.id !== currentUser?.id);
+
+  function toggleParticipant(userId) {
+    setSelectedParticipantIds((current) =>
+      current.includes(userId)
+        ? current.filter((id) => id !== userId)
+        : [...current, userId]
+    );
+  }
 
   // ถ้าใครเข้าหน้านี้ตรงๆ โดยไม่ได้เลือกวัน/เวลามาก่อน (เช่น พิมพ์ URL เอง) ให้เด้งกลับ
   if (!room || !dateKey || !time) {
@@ -28,7 +48,16 @@ function ConfirmBookingPage() {
   }
 
   function handleConfirm() {
-    addBooking({ roomId: room.id, dateKey, startTime: time });
+    addBooking({
+      roomId: room.id,
+      dateKey,
+      startTime: time,
+      duration,
+      title: title.trim() || "Untitled Meeting",
+      description: description.trim(),
+      ownerId: currentUser?.id,
+      participantIds: selectedParticipantIds,
+    });
     navigate("/my-bookings");
   }
 
@@ -68,7 +97,7 @@ function ConfirmBookingPage() {
             <Clock size={16} />
             <div>
               <span className="detail-label">Time</span>
-              <span className="detail-value">{slotRangeLabel(time)}</span>
+              <span className="detail-value">{slotRangeLabel(time, duration)}</span>
             </div>
           </div>
           <div className="detail-item">
@@ -77,6 +106,42 @@ function ConfirmBookingPage() {
               <span className="detail-label">Capacity</span>
               <span className="detail-value">Up to {room.capacity} people</span>
             </div>
+          </div>
+        </div>
+        <div className="form-section">
+          <label className="form-label">Meeting Title</label>
+          <input
+            type="text"
+            className="form-input"
+            placeholder="เช่น Weekly Team Sync"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
+        <div className="form-section">
+          <label className="form-label">Description</label>
+          <textarea
+            className="form-textarea"
+            placeholder="รายละเอียดคร่าวๆ ว่าประชุมเรื่องอะไร (ไม่บังคับ)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <div className="form-section">
+          <label className="form-label">Invite Participants</label>
+          <div className="participant-list">
+            {inviteableUsers.map((u) => (
+              <label key={u.id} className="participant-row">
+                <input
+                  type="checkbox"
+                  checked={selectedParticipantIds.includes(u.id)}
+                  onChange={() => toggleParticipant(u.id)}
+                />
+                {u.name}
+              </label>
+            ))}
           </div>
         </div>
 

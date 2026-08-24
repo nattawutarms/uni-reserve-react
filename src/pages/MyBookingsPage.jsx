@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertTriangle, Pin, Calendar, Clock, Plus } from "lucide-react";
-import { getAllBookings, updateBookingStatus } from "../api/bookingsStore.js";
+import { AlertTriangle, Pin, Calendar, Clock, Plus, Check, X, Mail } from "lucide-react";
+import { getAllBookings, updateBookingStatus, updateParticipantStatus } from "../api/bookingsStore.js";
 import { getRoomById } from "../data/rooms.js";
+import { getUserById } from "../data/users.js";
 import { startOfToday, fromDateKey, formatDateLabel } from "../utils/date.js";
 import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";
@@ -26,11 +27,21 @@ function daysUntil(date) {
 
 function MyBookingsPage() {
   const navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("user") || "null");
   const [bookingList, setBookingList] = useState(getAllBookings);
   const [tab, setTab] = useState("upcoming"); // "upcoming" | "past"
 
   const today = startOfToday();
-  const visibleBookings = bookingList.filter((b) => {
+
+  // "การจองของฉัน" = ตัวเองเป็นคนกดจอง (ownerId ตรงกับ user ที่ login อยู่)
+  const myBookings = bookingList.filter((b) => b.ownerId === currentUser?.id);
+
+  // "คำเชิญที่ได้รับ" = ตัวเองอยู่ใน participants ของการจองคนอื่น และยังไม่ได้ตอบรับ/ปฏิเสธ
+  const myInvitations = bookingList.filter((b) =>
+    (b.participants || []).some((p) => p.id === currentUser?.id)
+  );
+
+  const visibleBookings = myBookings.filter((b) => {
     const bookingDate = fromDateKey(b.dateKey);
     return tab === "upcoming"
       ? bookingDate >= today && b.status !== "cancelled"
@@ -43,6 +54,11 @@ function MyBookingsPage() {
 
     updateBookingStatus(booking.id, "cancelled");
     setBookingList(getAllBookings()); // โหลดข้อมูลล่าสุดจาก store มาแสดงใหม่
+  }
+
+  function handleRespondInvite(bookingId, status) {
+    updateParticipantStatus(bookingId, currentUser?.id, status);
+    setBookingList(getAllBookings());
   }
 
   return (
@@ -58,7 +74,54 @@ function MyBookingsPage() {
         <Pin size={14} />
         Please check in with the Admin at the room location 15 minutes before your time slot.
       </div>
+      {myInvitations.length > 0 && (
+        <div className="invitations-section">
+          <h2 className="invitations-title">
+            <Mail size={16} /> Meeting Invitations
+          </h2>
+          <div className="invitations-list">
+            {myInvitations.map((booking) => {
+              const room = getRoomById(booking.roomId);
+              const organizer = getUserById(booking.ownerId);
+              const myStatus = booking.participants.find((p) => p.id === currentUser?.id)?.status;
 
+              return (
+                <div className="invite-card" key={booking.id}>
+                  <div className="invite-info">
+                    <p className="invite-title">{booking.title || "Untitled Meeting"}</p>
+                    <p className="invite-meta">
+                      {room?.name} · {formatDateLabel(fromDateKey(booking.dateKey))} ·{" "}
+                      {slotRangeLabel(booking.startTime, booking.duration || 1)}
+                    </p>
+                    <p className="invite-meta">Invited by {organizer?.name ?? "Unknown"}</p>
+                  </div>
+
+                  {myStatus === "pending" ? (
+                    <div className="invite-actions">
+                      <button
+                        className="accept-btn"
+                        onClick={() => handleRespondInvite(booking.id, "accepted")}
+                      >
+                        <Check size={14} /> Accept
+                      </button>
+                      <button
+                        className="decline-btn"
+                        onClick={() => handleRespondInvite(booking.id, "declined")}
+                      >
+                        <X size={14} /> Decline
+                      </button>
+                    </div>
+                  ) : (
+                    <span className={`invite-status-badge ${myStatus}`}>
+                      {myStatus === "accepted" ? "Accepted" : "Declined"}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
       <div className="bookings-heading">
         <div>
           <h1>My Bookings</h1>

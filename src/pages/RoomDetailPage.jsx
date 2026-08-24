@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Users, ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { getRoomById } from "../data/rooms.js";
 import { getScheduleForDate, SLOT_TIMES } from "../data/schedule.js";
-import { startOfToday, addDays, isSameDay, formatDateLabel, toDateKey } from "../utils/date.js";
+import { startOfToday, addDays, isSameDay, formatDateLabel, toDateKey, fromDateKey } from "../utils/date.js";
 import AppHeader from "../components/AppHeader.jsx";
 import "./RoomDetailPage.css";
 
@@ -35,6 +35,12 @@ function RoomDetailPage() {
       setSelectedSlots([]);
     }
   }
+  function handleDateInputChange(e) {
+    const newDate = fromDateKey(e.target.value);
+    setSelectedDate(newDate);
+    setSelectedSlots([]);
+  }
+
 
   // ----- ดึง schedule จำลองของวันที่เลือก -----
   const isToday = isSameDay(selectedDate, today);
@@ -154,7 +160,14 @@ function RoomDetailPage() {
               <button onClick={goPrevDay} disabled={!canGoPrev} aria-label="วันก่อนหน้า">
                 <ChevronLeft size={16} />
               </button>
-              <span>{formatDateLabel(selectedDate)}</span>
+              <input
+                type="date"
+                className="date-picker-input"
+                value={toDateKey(selectedDate)}
+                min={toDateKey(today)}
+                max={toDateKey(addDays(today, MAX_DAYS_AHEAD - 1))}
+                onChange={handleDateInputChange}
+              />
               <button onClick={goNextDay} disabled={!canGoNext} aria-label="วันถัดไป">
                 <ChevronRight size={16} />
               </button>

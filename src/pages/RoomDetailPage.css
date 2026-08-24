@@ -184,6 +184,16 @@
   color: #1e2a4a;
 }
 
+.date-picker-input {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e2a4a;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 .date-nav button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
@@ -223,9 +233,17 @@
   display: inline-block;
 }
 
-.dot.available { background: #22b573; }
-.dot.booked { background: #e0625c; }
-.dot.selected { background: #1e2a4a; }
+.dot.available {
+  background: #22b573;
+}
+
+.dot.booked {
+  background: #e0625c;
+}
+
+.dot.selected {
+  background: #1e2a4a;
+}
 
 .slot-group-label {
   font-size: 11px;

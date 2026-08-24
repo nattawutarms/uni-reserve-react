@@ -13,6 +13,7 @@ export const seedBookings = [
     dateKey: toDateKey(addDays(today, 2)),
     startTime: "10:30",
     status: "approved",
+    ownerId: "u1",
   },
   {
     id: "bk-2",
@@ -20,6 +21,7 @@ export const seedBookings = [
     dateKey: toDateKey(addDays(today, 5)),
     startTime: "14:30",
     status: "pending",
+    ownerId: "u1",
   },
   {
     id: "bk-3",
@@ -27,6 +29,7 @@ export const seedBookings = [
     dateKey: toDateKey(addDays(today, -10)),
     startTime: "09:30",
     status: "completed",
+    ownerId: "u1",
   },
   {
     id: "bk-4",
@@ -34,5 +37,6 @@ export const seedBookings = [
     dateKey: toDateKey(addDays(today, -5)),
     startTime: "13:30",
     status: "no-show",
+    ownerId: "u1",
   },
 ];
