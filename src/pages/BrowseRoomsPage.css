@@ -218,6 +218,35 @@
   cursor: not-allowed;
 }
 
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  color: #9aa0ab;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1e2a4a;
+}
+
+.empty-rooms-text {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #9aa0ab;
+  font-size: 13px;
+  padding: 40px 0;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 760px) {
   .filter-card {

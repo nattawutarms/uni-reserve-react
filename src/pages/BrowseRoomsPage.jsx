@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
 import { Video, Presentation, PenSquare, Users } from "lucide-react";
 import { rooms } from "../data/rooms.js";
 import { SLOT_TIMES } from "../data/schedule.js";
@@ -15,9 +17,33 @@ const EQUIPMENT_ICONS = {
 function BrowseRoomsPage() {
   const navigate = useNavigate();
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [minCapacity, setMinCapacity] = useState(2);
+  const [equipmentFilter, setEquipmentFilter] = useState({
+    projector: false,
+    video: false,
+    whiteboard: false,
+  });
+
   function handleBookNow(room) {
     navigate(`/rooms/${room.id}`);
   }
+
+  function toggleEquipment(key) {
+    setEquipmentFilter((current) => ({ ...current, [key]: !current[key] }));
+  }
+
+  // ห้องที่ผ่านเงื่อนไขทุกตัวกรองพร้อมกัน (search + capacity + equipment)
+  const filteredRooms = rooms.filter((room) => {
+    const matchesSearch = room.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCapacity = room.capacity >= minCapacity;
+
+    // เช็คว่าอุปกรณ์ที่ "ติ๊กไว้" ทุกตัว ห้องนี้ต้องมีครบ
+    const activeFilters = Object.keys(equipmentFilter).filter((key) => equipmentFilter[key]);
+    const matchesEquipment = activeFilters.every((key) => room.equipment.includes(key));
+
+    return matchesSearch && matchesCapacity && matchesEquipment;
+  });
 
   return (
     <div className="venue-page">
@@ -51,9 +77,15 @@ function BrowseRoomsPage() {
         <div className="filter-block">
           <div className="filter-label-row">
             <label className="filter-label">Capacity</label>
-            <span className="capacity-badge">12+ People</span>
+            <span className="capacity-badge">{minCapacity}+ People</span>
           </div>
-          <input type="range" min="2" max="50" defaultValue="12" />
+          <input
+            type="range"
+            min="2"
+            max="50"
+            value={minCapacity}
+            onChange={(e) => setMinCapacity(Number(e.target.value))}
+          />
           <div className="range-scale">
             <span>2</span>
             <span>50</span>
@@ -63,15 +95,27 @@ function BrowseRoomsPage() {
         <div className="filter-block">
           <label className="filter-label">Equipment</label>
           <label className="checkbox-row">
-            <input type="checkbox" defaultChecked />
+            <input
+              type="checkbox"
+              checked={equipmentFilter.projector}
+              onChange={() => toggleEquipment("projector")}
+            />
             Projector
           </label>
           <label className="checkbox-row">
-            <input type="checkbox" defaultChecked />
+            <input
+              type="checkbox"
+              checked={equipmentFilter.video}
+              onChange={() => toggleEquipment("video")}
+            />
             Video Conference
           </label>
           <label className="checkbox-row">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={equipmentFilter.whiteboard}
+              onChange={() => toggleEquipment("whiteboard")}
+            />
             Whiteboard
           </label>
         </div>
@@ -79,13 +123,23 @@ function BrowseRoomsPage() {
 
       {/* ---------- Room list ---------- */}
       <section className="rooms-section">
+        <div className="search-bar">
+          <Search size={16} />
+          <input
+            type="text"
+            placeholder="Search rooms by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
         <div className="rooms-heading">
           <h2>Available Spaces</h2>
-          <span className="results-count">Showing {rooms.length} results</span>
+          <span className="results-count">Showing {filteredRooms.length} results</span>
         </div>
 
         <div className="rooms-grid">
-          {rooms.map((room) => (
+          {filteredRooms.map((room) => (
             <div className="room-card" key={room.id}>
               <div className="room-image-wrap">
                 <img src={room.image} alt={room.name} />
@@ -120,6 +174,9 @@ function BrowseRoomsPage() {
               </div>
             </div>
           ))}
+          {filteredRooms.length === 0 && (
+            <p className="empty-rooms-text">ไม่พบห้องที่ตรงเงื่อนไข ลองปรับตัวกรองใหม่</p>
+          )}
         </div>
       </section>
     </div>
