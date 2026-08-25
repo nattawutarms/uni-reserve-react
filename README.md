@@ -16,7 +16,7 @@ npm run dev
 ```
 
 ทดสอบ login ด้วย:
-- Student/User: `student@test.com` / `123456`
+- Student/User: `01` / `123456`
 - Admin: `admin@test.com` / `admin123`
 
 ## โครงสร้างโปรเจค
