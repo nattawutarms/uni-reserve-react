@@ -28,7 +28,11 @@ function AppHeader({ active }) {
         <Link to="/my-bookings" className={`nav-link ${active === "bookings" ? "active" : ""}`}>
           My Bookings
         </Link>
-        {isAdmin && <a href="#" className="nav-link">Manage Rooms</a>}
+        {isAdmin && (
+          <Link to="/admin/bookings" className={`nav-link ${active === "admin-bookings" ? "active" : ""}`}>
+            Manage Bookings
+          </Link>
+        )}
       </nav>
 
       <div className="app-user">

@@ -1,0 +1,171 @@
+.admin-bookings-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+.admin-bookings-page h1 {
+    margin: 0 0 4px;
+    font-size: 26px;
+    color: #1e2a4a;
+}
+
+.page-subtitle {
+    margin: 0 0 20px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.status-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.status-tabs button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: #fff;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.status-tabs button.active {
+    background: #1e2a4a;
+    color: #fff;
+}
+
+.tab-count {
+    background: rgba(0, 0, 0, 0.08);
+    padding: 1px 7px;
+    border-radius: 999px;
+    font-size: 11px;
+}
+
+.status-tabs button.active .tab-count {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.bookings-table {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.table-header,
+.table-row {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1.3fr 1fr 1fr 1.4fr;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    font-size: 13px;
+}
+
+.table-header {
+    background: #f8f9fb;
+    font-size: 11px;
+    font-weight: 700;
+    color: #9aa0ab;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.table-row {
+    border-top: 1px solid #eef0f3;
+    color: #374151;
+}
+
+.cell-room {
+    font-weight: 600;
+    color: #1e2a4a;
+}
+
+.cell-time {
+    color: #9aa0ab;
+    font-size: 12px;
+}
+
+.status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    color: #fff;
+}
+
+.badge-pending {
+    background: #e5a13a;
+}
+
+.badge-approved {
+    background: #22b573;
+}
+
+.badge-rejected {
+    background: #e0625c;
+}
+
+.badge-completed {
+    background: #6b7280;
+}
+
+.badge-cancelled {
+    background: #9aa0ab;
+}
+
+.cell-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.approve-btn,
+.reject-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+
+.approve-btn {
+    background: #22b573;
+    color: #fff;
+}
+
+.approve-btn:hover {
+    background: #1e9c63;
+}
+
+.reject-btn {
+    background: #fdf1f0;
+    color: #e0625c;
+}
+
+.reject-btn:hover {
+    background: #fbe4e2;
+}
+
+.no-action {
+    color: #cbd0d8;
+}
+
+.empty-text {
+    text-align: center;
+    color: #9aa0ab;
+    font-size: 13px;
+    padding:
