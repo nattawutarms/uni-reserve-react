@@ -199,3 +199,25 @@
     font-size: 12px;
     color: #cbd0d8;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+    .users-heading-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .add-user-btn {
+        align-self: flex-start;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px 20px;
+    }
+}

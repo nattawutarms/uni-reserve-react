@@ -346,4 +346,17 @@
   .schedule-card {
     position: static;
   }
+
+  .amenities-list {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-thumbs {
+    grid-template-rows: none;
+    grid-template-columns: 1fr 1fr;
+  }
 }

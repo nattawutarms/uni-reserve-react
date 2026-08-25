@@ -206,3 +206,19 @@
 .delete-btn:hover {
     background: #fdf1f0 !important;
 }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+    .rooms-heading-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .add-room-btn {
+        align-self: flex-start;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
