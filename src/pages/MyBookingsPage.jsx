@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertTriangle, Pin, Calendar, Clock, Plus, Check, X, Mail } from "lucide-react";
 import { getAllBookings, updateBookingStatus, updateParticipantStatus } from "../api/bookingsStore.js";
-import { getRoomById } from "../data/rooms.js";
+import { getRoomById } from "../api/roomsStore.js";
 import { getUserById } from "../data/users.js";
 import { startOfToday, fromDateKey, formatDateLabel } from "../utils/date.js";
 import { slotRangeLabel } from "../utils/time.js";

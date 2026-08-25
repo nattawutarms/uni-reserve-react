@@ -1,0 +1,208 @@
+.admin-rooms-page {
+    width: 100%;
+}
+
+.admin-rooms-content {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+.rooms-heading-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.rooms-heading-row h1 {
+    margin: 0 0 4px;
+    font-size: 26px;
+    color: #1e2a4a;
+}
+
+.page-subtitle {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.add-room-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1e2a4a;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.add-room-btn:hover {
+    background: #14203d;
+}
+
+/* ---------- form ---------- */
+.room-form {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.close-form-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: none;
+    background: #eef0f3;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.form-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b7280;
+    margin: 14px 0 6px;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dfe2e8;
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    border-color: #3b5bdb;
+}
+
+.form-textarea {
+    min-height: 70px;
+    resize: vertical;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.equipment-checkboxes {
+    display: flex;
+    gap: 20px;
+}
+
+.equipment-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+}
+
+.save-room-btn {
+    margin-top: 20px;
+    background: #22b573;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.save-room-btn:hover {
+    background: #1e9c63;
+}
+
+/* ---------- room grid ---------- */
+.admin-rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.admin-room-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.admin-room-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.admin-room-body {
+    padding: 16px;
+}
+
+.admin-room-body h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    color: #1e2a4a;
+}
+
+.admin-room-body p {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.room-meta {
+    color: #9aa0ab !important;
+}
+
+.admin-room-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.admin-room-actions button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+    padding: 7px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #dfe2e8;
+    background: #fff;
+    color: #1e2a4a;
+    cursor: pointer;
+}
+
+.delete-btn {
+    color: #e0625c !important;
+    border-color: #f3c9c6 !important;
+}
+
+.delete-btn:hover {
+    background: #fdf1f0 !important;
+}

@@ -2,7 +2,7 @@
 // ข้อมูลห้องประชุมปลอมไว้ก่อน (ทีหลังจะดึงจาก backend จริงแทน)
 // รูปภาพใช้จาก Unsplash ชั่วคราว - ทีหลังเปลี่ยนเป็น URL รูปจริงของบริษัทได้เลย
 
-export const rooms = [
+export const seedRooms = [
   {
     id: "room-1",
     name: "Focus Pod",
@@ -53,6 +53,4 @@ export const rooms = [
   },
 ];
 
-export function getRoomById(id) {
-  return rooms.find((r) => r.id === id) ?? null;
-}
+

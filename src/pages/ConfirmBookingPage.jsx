@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 import { AlertTriangle, Calendar, Clock, Users } from "lucide-react";
-import { getRoomById } from "../data/rooms.js";
+import { getRoomById } from "../api/roomsStore.js";
 import { addBooking } from "../api/bookingsStore.js";
 import { users } from "../data/users.js";
 import { fromDateKey, formatDateLabel } from "../utils/date.js";

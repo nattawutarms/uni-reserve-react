@@ -6,6 +6,7 @@ import ConfirmBookingPage from "./pages/ConfirmBookingPage.jsx";
 import MyBookingsPage from "./pages/MyBookingsPage.jsx";
 import AdminBookingsPage from "./pages/AdminBookingsPage.jsx";
 import AdminCheckinPage from "./pages/AdminCheckinPage.jsx";
+import AdminRoomsPage from "./pages/AdminRoomsPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 
@@ -61,6 +62,14 @@ function App() {
           element={
             <AdminRoute>
               <AdminCheckinPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/rooms"
+          element={
+            <AdminRoute>
+              <AdminRoomsPage />
             </AdminRoute>
           }
         />

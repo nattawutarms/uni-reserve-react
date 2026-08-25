@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Video, Presentation, PenSquare, Users } from "lucide-react";
-import { rooms } from "../data/rooms.js";
+import { getAllRooms } from "../api/roomsStore.js";
 import { SLOT_TIMES } from "../data/schedule.js";
 import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";
@@ -16,6 +16,7 @@ const EQUIPMENT_ICONS = {
 
 function BrowseRoomsPage() {
   const navigate = useNavigate();
+  const rooms = getAllRooms();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [minCapacity, setMinCapacity] = useState(2);

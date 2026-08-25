@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Users, ChevronLeft, ChevronRight, Info } from "lucide-react";
-import { getRoomById } from "../data/rooms.js";
+import { getRoomById } from "../api/roomsStore.js";
 import { getScheduleForDate, SLOT_TIMES } from "../data/schedule.js";
 import { startOfToday, addDays, isSameDay, formatDateLabel, toDateKey, fromDateKey } from "../utils/date.js";
 import AppHeader from "../components/AppHeader.jsx";

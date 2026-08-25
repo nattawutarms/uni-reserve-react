@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { getAllBookings, updateBookingStatus } from "../api/bookingsStore.js";
-import { getRoomById } from "../data/rooms.js";
+import { getRoomById } from "../api/roomsStore.js";
 import { getUserById } from "../data/users.js";
 import { fromDateKey, formatDateLabel } from "../utils/date.js";
 import { slotRangeLabel } from "../utils/time.js";
