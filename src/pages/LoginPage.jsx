@@ -50,7 +50,7 @@ function LoginPage() {
           </svg>
         </div>
 
-        <h1>UniReserve Portal</h1>
+        <h1>อุ๊ยรวยไม่จำกัด มหาชน</h1>
         <p className="subtitle">University Room Booking System</p>
 
         <div className="role-tabs">

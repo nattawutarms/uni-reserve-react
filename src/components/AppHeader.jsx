@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import "./AppHeader.css";
 
 /**
@@ -10,6 +11,7 @@ function AppHeader({ active }) {
   const navigate = useNavigate();
   const storedUser = JSON.parse(localStorage.getItem("user") || "null");
   const isAdmin = storedUser?.role === "admin";
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function handleLogout() {
     localStorage.removeItem("token");
@@ -19,9 +21,13 @@ function AppHeader({ active }) {
 
   return (
     <header className="app-header">
-      <Link to="/rooms" className="app-logo">VenueMaster</Link>
+      <Link to="/rooms" className="app-logo">อุ๊ยรวยไม่จำกัด มหาชน</Link>
 
-      <nav className="app-nav">
+      <button className="menu-toggle" onClick={() => setMenuOpen((v) => !v)} aria-label="เปิด/ปิดเมนู">
+        {menuOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
+
+      <nav className={`app-nav ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(false)}>
         <Link to="/rooms" className={`nav-link ${active === "rooms" ? "active" : ""}`}>
           Browse Rooms
         </Link>
@@ -46,7 +52,7 @@ function AppHeader({ active }) {
         )}
       </nav>
 
-      <div className="app-user">
+      <div className={`app-user ${menuOpen ? "open" : ""}`}>
         <span className="role-badge">Role: {isAdmin ? "Admin" : "User"}</span>
         <button className="logout-btn" onClick={handleLogout}>
           <LogOut size={14} />
