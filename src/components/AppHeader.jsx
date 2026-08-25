@@ -29,9 +29,14 @@ function AppHeader({ active }) {
           My Bookings
         </Link>
         {isAdmin && (
-          <Link to="/admin/bookings" className={`nav-link ${active === "admin-bookings" ? "active" : ""}`}>
-            Manage Bookings
-          </Link>
+          <>
+            <Link to="/admin/bookings" className={`nav-link ${active === "admin-bookings" ? "active" : ""}`}>
+              Manage Bookings
+            </Link>
+            <Link to="/admin/checkin" className={`nav-link ${active === "admin-checkin" ? "active" : ""}`}>
+              Check-in
+            </Link>
+          </>
         )}
       </nav>
 

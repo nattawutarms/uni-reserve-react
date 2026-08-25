@@ -6,7 +6,6 @@
   padding: 16px 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
@@ -20,6 +19,7 @@
 .app-nav {
   display: flex;
   gap: 24px;
+  margin-left: 48px;
 }
 
 .nav-link {
@@ -38,6 +38,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  margin-left: auto;
 }
 
 .role-badge {
