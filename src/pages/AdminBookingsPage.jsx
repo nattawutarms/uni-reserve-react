@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { getAllBookings, updateBookingStatus } from "../api/bookingsStore.js";
 import { getRoomById } from "../api/roomsStore.js";
-import { getUserById } from "../data/users.js";
+import { getUserById } from "../api/usersStore.js";
 import { fromDateKey, formatDateLabel } from "../utils/date.js";
 import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";

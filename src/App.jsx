@@ -7,6 +7,7 @@ import MyBookingsPage from "./pages/MyBookingsPage.jsx";
 import AdminBookingsPage from "./pages/AdminBookingsPage.jsx";
 import AdminCheckinPage from "./pages/AdminCheckinPage.jsx";
 import AdminRoomsPage from "./pages/AdminRoomsPage.jsx";
+import AdminUsersPage from "./pages/AdminUsersPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 
@@ -70,6 +71,14 @@ function App() {
           element={
             <AdminRoute>
               <AdminRoomsPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminUsersPage />
             </AdminRoute>
           }
         />

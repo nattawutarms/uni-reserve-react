@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 import { AlertTriangle, Calendar, Clock, Users } from "lucide-react";
 import { getRoomById } from "../api/roomsStore.js";
 import { addBooking } from "../api/bookingsStore.js";
-import { users } from "../data/users.js";
+import { getAllUsers } from "../api/usersStore.js";
 import { fromDateKey, formatDateLabel } from "../utils/date.js";
 import { slotRangeLabel } from "../utils/time.js";
 import AppHeader from "../components/AppHeader.jsx";
@@ -26,7 +26,7 @@ function ConfirmBookingPage() {
   const [selectedParticipantIds, setSelectedParticipantIds] = useState([]);
 
   // รายชื่อที่เลือกเชิญได้ = ทุกคนในระบบ ยกเว้นตัวเอง
-  const inviteableUsers = users.filter((u) => u.id !== currentUser?.id);
+  const inviteableUsers = getAllUsers().filter((u) => u.id !== currentUser?.id);
 
   function toggleParticipant(userId) {
     setSelectedParticipantIds((current) =>
